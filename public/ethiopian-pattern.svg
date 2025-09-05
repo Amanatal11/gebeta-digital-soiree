@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="ethiopianPattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <circle cx="25" cy="25" r="2" fill="#8B4513" opacity="0.3"/>
+      <path d="M10,25 L40,25 M25,10 L25,40" stroke="#DAA520" stroke-width="1" opacity="0.2"/>
+      <path d="M15,15 L35,35 M35,15 L15,35" stroke="#654321" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="200" fill="url(#ethiopianPattern)"/>
+</svg>
