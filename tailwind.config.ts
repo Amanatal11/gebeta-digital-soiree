@@ -61,7 +61,29 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Game-specific colors
+				board: {
+					primary: 'hsl(var(--board-primary))',
+					secondary: 'hsl(var(--board-secondary))',
+					accent: 'hsl(var(--board-accent))'
+				},
+				hole: {
+					shadow: 'hsl(var(--hole-shadow))'
+				},
+				seed: {
+					primary: 'hsl(var(--seed-primary))',
+					secondary: 'hsl(var(--seed-secondary))'
+				},
+				capture: {
+					highlight: 'hsl(var(--capture-highlight))'
 				}
+			},
+			backgroundImage: {
+				'gradient-board': 'var(--gradient-board)',
+				'gradient-hole': 'var(--gradient-hole)',
+				'gradient-seed': 'var(--gradient-seed)',
+				'gradient-warm': 'var(--gradient-warm)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
