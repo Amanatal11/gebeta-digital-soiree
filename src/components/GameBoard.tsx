@@ -33,13 +33,13 @@ export const GameBoard = () => {
 
     const newBoard = gameState.board.map(r => [...r]);
     const newStores = [...gameState.stores];
-    
+
     let seeds = newBoard[row][hole];
     newBoard[row][hole] = 0;
-    
+
     let currentRow = row;
     let currentHole = hole;
-    
+
     // Sow seeds counterclockwise
     while (seeds > 0) {
       // Move to next position
@@ -70,7 +70,7 @@ export const GameBoard = () => {
           currentHole = 0;
         }
       }
-      
+
       if (seeds > 0) {
         newBoard[currentRow][currentHole]++;
         seeds--;
@@ -81,7 +81,7 @@ export const GameBoard = () => {
     if (seeds === 0 && currentRow === gameState.currentPlayer && newBoard[currentRow][currentHole] === 1) {
       const oppositeRow = 1 - currentRow;
       const oppositeHole = currentRow === 0 ? currentHole : currentHole;
-      
+
       if (newBoard[oppositeRow][oppositeHole] > 0) {
         newStores[gameState.currentPlayer] += newBoard[currentRow][currentHole] + newBoard[oppositeRow][oppositeHole];
         newBoard[currentRow][currentHole] = 0;
@@ -92,18 +92,18 @@ export const GameBoard = () => {
     // Check if game is over
     const player0Empty = newBoard[0].every(h => h === 0);
     const player1Empty = newBoard[1].every(h => h === 0);
-    
+
     let winner = null;
     let gameOver = false;
-    
+
     if (player0Empty || player1Empty) {
       // Add remaining seeds to respective stores
       newStores[0] += newBoard[0].reduce((sum, seeds) => sum + seeds, 0);
       newStores[1] += newBoard[1].reduce((sum, seeds) => sum + seeds, 0);
-      
+
       newBoard[0].fill(0);
       newBoard[1].fill(0);
-      
+
       gameOver = true;
       winner = newStores[0] > newStores[1] ? 0 : newStores[1] > newStores[0] ? 1 : null;
     }
@@ -131,22 +131,56 @@ export const GameBoard = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 p-4 min-h-screen bg-gradient-warm">
-      <h1 className="text-4xl font-bold text-primary mb-2">ገቦታ Gebeta</h1>
-      <p className="text-muted-foreground text-center max-w-md">
-        Traditional Ethiopian Mancala Game
-      </p>
-      
+    <div className="flex flex-col items-center gap-6 p-4 min-h-screen bg-gradient-ethiopian relative overflow-hidden">
+      {/* Ethiopian decorative elements */}
+      <div className="absolute top-4 left-4 opacity-20">
+        <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-12 h-12" />
+      </div>
+      <div className="absolute top-4 right-4 opacity-20">
+        <img src="/ethiopian-shield.svg" alt="Ethiopian Shield" className="w-10 h-12" />
+      </div>
+      <div className="absolute bottom-4 left-4 opacity-15">
+        <img src="/ethiopian-coffee.svg" alt="Ethiopian Coffee" className="w-8 h-10" />
+      </div>
+      <div className="absolute bottom-4 right-4 opacity-15">
+        <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-10 h-10" />
+      </div>
+
+      {/* Ethiopian pattern background */}
+      <div className="absolute inset-0 opacity-5">
+        <img src="/ethiopian-pattern.svg" alt="" className="w-full h-full object-cover" />
+      </div>
+
+      <div className="relative z-10">
+        <div className="flex items-center justify-center gap-4 mb-2">
+          <img src="/ethiopian-shield.svg" alt="Ethiopian Shield" className="w-12 h-16 opacity-80" />
+          <h1 className="text-6xl font-bold text-primary drop-shadow-lg">
+            ገቦታ
+          </h1>
+          <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-12 h-12 opacity-80" />
+        </div>
+        <h2 className="text-3xl font-semibold text-accent mb-4 text-center drop-shadow-md">
+          Gebeta
+        </h2>
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-6 h-6 opacity-60" />
+          <p className="text-muted-foreground text-center max-w-md font-medium">
+            Traditional Ethiopian Mancala Game
+          </p>
+          <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-6 h-6 opacity-60" />
+        </div>
+      </div>
+
       <div className="flex items-center gap-8 mb-4">
-        <PlayerInfo 
-          player={1} 
-          score={gameState.stores[1]} 
+        <PlayerInfo
+          player={1}
+          score={gameState.stores[1]}
           isActive={gameState.currentPlayer === 1}
           name="Player 2"
         />
-        <PlayerInfo 
-          player={0} 
-          score={gameState.stores[0]} 
+        <PlayerInfo
+          player={0}
+          score={gameState.stores[0]}
           isActive={gameState.currentPlayer === 0}
           name="Player 1"
         />
@@ -154,8 +188,13 @@ export const GameBoard = () => {
 
       <div className={cn(
         "relative bg-gradient-board rounded-3xl p-6 shadow-2xl",
-        "border-4 border-board-accent"
-      )}>
+        "border-4 border-board-accent",
+        "bg-[url('/ethiopian-pattern.svg')] bg-opacity-10"
+      )} style={{
+        backgroundImage: "url('/ethiopian-pattern.svg'), linear-gradient(135deg, hsl(var(--board-primary)), hsl(var(--board-secondary)))",
+        backgroundSize: "60px 60px, cover",
+        backgroundBlendMode: "overlay"
+      }}>
         {/* Player 1's row (top, reversed for visual layout) */}
         <div className="flex gap-4 mb-6">
           {gameState.board[1].slice().reverse().map((seeds, index) => (
@@ -168,7 +207,7 @@ export const GameBoard = () => {
             />
           ))}
         </div>
-        
+
         {/* Player 0's row (bottom) */}
         <div className="flex gap-4">
           {gameState.board[0].map((seeds, index) => (

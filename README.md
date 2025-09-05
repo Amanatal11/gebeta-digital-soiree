@@ -1,73 +1,116 @@
-# Welcome to your Lovable project
+# ገቦታ Gebeta - Ethiopian Mancala Game
 
-## Project info
+A beautiful, interactive implementation of the traditional Ethiopian Mancala game built with React, TypeScript, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/01a5a508-5807-4b88-b138-f7edc3ef02c4
+## 🎮 About the Game
 
-## How can I edit this code?
+Gebeta (ገቦታ) is a traditional Ethiopian board game similar to Mancala. Players take turns sowing seeds counterclockwise, capturing opponent's seeds by landing in empty holes on their side.
 
-There are several ways of editing your application.
+## ✨ Features
 
-**Use Lovable**
+- 🎨 Beautiful Ethiopian-inspired design with coffee brown and gold color palette
+- 🎯 Interactive gameplay with smooth animations
+- 📱 Responsive design that works on all devices
+- 🎪 Visual seed representation with animated elements
+- 🏆 Winner detection and score tracking
+- 🔄 Game reset functionality
+- 🎨 Clean, modern UI using shadcn/ui components
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/01a5a508-5807-4b88-b138-f7edc3ef02c4) and start prompting.
+## 🚀 Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v16 or higher)
+- npm or yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd gebeta-digital-soiree
+```
 
-Follow these steps:
+2. Install dependencies:
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🎯 How to Play
 
-**Use GitHub Codespaces**
+1. **Setup**: Each player starts with 6 holes containing 4 seeds each
+2. **Gameplay**: Click on any hole on your side to sow seeds counterclockwise
+3. **Capture**: Land your last seed in an empty hole on your side to capture opponent's seeds
+4. **Objective**: Collect more seeds than your opponent when the game ends
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🛠️ Technologies Used
 
-## What technologies are used for this project?
+- **React 18** - Modern React with hooks
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - Beautiful, accessible components
+- **Lucide React** - Modern icon library
+- **Vite** - Fast build tool and dev server
 
-This project is built with:
+## 🏗️ Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/
+│   ├── GameBoard.tsx     # Main game logic and state management
+│   ├── Hole.tsx         # Individual game hole component
+│   ├── PlayerInfo.tsx   # Player score and turn indicator
+│   ├── GameControls.tsx # Game controls and winner display
+│   └── ui/              # shadcn/ui components
+├── pages/
+│   ├── Index.tsx        # Main game page
+│   └── NotFound.tsx     # 404 page
+├── lib/
+│   └── utils.ts         # Utility functions
+└── main.tsx             # App entry point
+```
 
-## How can I deploy this project?
+## 🎨 Design System
 
-Simply open [Lovable](https://lovable.dev/projects/01a5a508-5807-4b88-b138-f7edc3ef02c4) and click on Share -> Publish.
+The game features an Ethiopian-inspired color palette:
+- Rich coffee browns and golds
+- Warm, earthy tones
+- Smooth gradients and shadows
+- Responsive, accessible design
 
-## Can I connect a custom domain to my Lovable project?
+## 📦 Available Scripts
 
-Yes, you can!
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run build:dev` - Build for development
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🚀 Deployment
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+The app can be deployed to any static hosting service:
+
+```bash
+npm run build
+```
+
+Upload the `dist` folder to your hosting provider.
+
+### Lovable Deployment
+
+Simply open [Lovable](https://lovable.dev/projects/01a5a508-5807-4b88-b138-f7edc3ef02c4) and click on Share → Publish.
+
+## 🤝 Contributing
+
+Feel free to submit issues and enhancement requests!
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
