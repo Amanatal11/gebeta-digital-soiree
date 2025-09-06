@@ -12,12 +12,13 @@ export const Hole = ({ seeds, onClick, disabled, highlight }: HoleProps) => {
     <button
       onClick={onClick}
       disabled={disabled}
+      title={disabled ? "" : `Click to distribute ${seeds} seeds counterclockwise`}
       className={cn(
         "relative w-20 h-20 rounded-full transition-all duration-300",
         "bg-gradient-hole border-2 border-hole-shadow/30",
         "flex items-center justify-center",
         "shadow-inner",
-        !disabled && "hover:scale-105 hover:shadow-lg",
+        !disabled && "hover:scale-105 hover:shadow-lg cursor-pointer",
         highlight && !disabled && "ring-2 ring-capture-highlight ring-offset-2",
         disabled && "opacity-60 cursor-not-allowed"
       )}
@@ -33,7 +34,7 @@ export const Hole = ({ seeds, onClick, disabled, highlight }: HoleProps) => {
             {seeds}
           </div>
         )}
-        
+
         {/* Visual seeds for smaller numbers */}
         {seeds > 0 && seeds <= 8 && (
           <div className="grid grid-cols-3 gap-1 w-12 h-12">

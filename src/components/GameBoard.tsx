@@ -131,43 +131,37 @@ export const GameBoard = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 p-4 min-h-screen bg-gradient-ethiopian relative overflow-hidden">
-      {/* Ethiopian decorative elements */}
-      <div className="absolute top-4 left-4 opacity-20">
-        <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-12 h-12" />
-      </div>
-      <div className="absolute top-4 right-4 opacity-20">
-        <img src="/ethiopian-shield.svg" alt="Ethiopian Shield" className="w-10 h-12" />
-      </div>
-      <div className="absolute bottom-4 left-4 opacity-15">
-        <img src="/ethiopian-coffee.svg" alt="Ethiopian Coffee" className="w-8 h-10" />
-      </div>
-      <div className="absolute bottom-4 right-4 opacity-15">
-        <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-10 h-10" />
+    <div className="flex flex-col items-center gap-6 p-4 min-h-screen bg-gradient-warm">
+      {/* Simple Ethiopian header */}
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-primary mb-2">
+          ገበጣ Gebeta
+        </h1>
+        <p className="text-muted-foreground text-center max-w-md mb-4">
+          Traditional Ethiopian Mancala Game
+        </p>
+
+        {/* Quick tutorial for new players */}
+        {!gameState.gameOver && (
+          <div className="bg-card/80 p-4 rounded-lg mb-4 max-w-md">
+            <h3 className="font-semibold text-primary mb-2">How to Play:</h3>
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p>🎯 <strong>Click</strong> any hole on your side</p>
+              <p>🌱 Seeds will sow <strong>counterclockwise</strong></p>
+              <p>🏆 <strong>Capture</strong> when last seed lands in empty hole</p>
+              <p>🎉 Collect more seeds than opponent to win!</p>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Ethiopian pattern background */}
-      <div className="absolute inset-0 opacity-5">
-        <img src="/ethiopian-pattern.svg" alt="" className="w-full h-full object-cover" />
-      </div>
-
-      <div className="relative z-10">
-        <div className="flex items-center justify-center gap-4 mb-2">
-          <img src="/ethiopian-shield.svg" alt="Ethiopian Shield" className="w-12 h-16 opacity-80" />
-          <h1 className="text-6xl font-bold text-primary drop-shadow-lg">
-            ገቦታ
-          </h1>
-          <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-12 h-12 opacity-80" />
-        </div>
-        <h2 className="text-3xl font-semibold text-accent mb-4 text-center drop-shadow-md">
-          Gebeta
-        </h2>
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-6 h-6 opacity-60" />
-          <p className="text-muted-foreground text-center max-w-md font-medium">
-            Traditional Ethiopian Mancala Game
-          </p>
-          <img src="/ethiopian-cross.svg" alt="Ethiopian Cross" className="w-6 h-6 opacity-60" />
+      {/* Current turn indicator */}
+      <div className="text-center mb-4">
+        <div className="inline-flex items-center gap-2 bg-card px-4 py-2 rounded-full border">
+          <div className="w-3 h-3 bg-accent rounded-full"></div>
+          <span className="font-medium">
+            Player {gameState.currentPlayer + 1}'s Turn
+          </span>
         </div>
       </div>
 
@@ -188,13 +182,8 @@ export const GameBoard = () => {
 
       <div className={cn(
         "relative bg-gradient-board rounded-3xl p-6 shadow-2xl",
-        "border-4 border-board-accent",
-        "bg-[url('/ethiopian-pattern.svg')] bg-opacity-10"
-      )} style={{
-        backgroundImage: "url('/ethiopian-pattern.svg'), linear-gradient(135deg, hsl(var(--board-primary)), hsl(var(--board-secondary)))",
-        backgroundSize: "60px 60px, cover",
-        backgroundBlendMode: "overlay"
-      }}>
+        "border-4 border-board-accent"
+      )}>
         {/* Player 1's row (top, reversed for visual layout) */}
         <div className="flex gap-4 mb-6">
           {gameState.board[1].slice().reverse().map((seeds, index) => (
