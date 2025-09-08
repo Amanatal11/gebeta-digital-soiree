@@ -11,18 +11,11 @@ interface PlayerInfoProps {
 export const PlayerInfo = ({ player, score, isActive, name }: PlayerInfoProps) => {
   return (
     <div className={cn(
-      "flex flex-col items-center gap-2 p-4 rounded-xl relative",
+      "flex flex-col items-center gap-2 p-4 rounded-xl",
       "bg-card border-2 transition-all duration-300",
-      isActive ? "border-accent shadow-lg scale-105" : "border-border",
+      isActive ? "border-accent shadow-lg scale-105 bg-accent/5" : "border-border",
       "min-w-[120px]"
     )}>
-      {/* Small Ethiopian cross decoration */}
-      {isActive && (
-        <div className="absolute -top-2 -right-2">
-          <img src="/ethiopian-cross.svg" alt="" className="w-4 h-4 opacity-70" />
-        </div>
-      )}
-
       <div className={cn(
         "flex items-center gap-2",
         isActive && "text-accent"

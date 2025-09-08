@@ -1,10 +1,10 @@
-# ገቦታ Gebeta - Ethiopian Mancala Game
+# ገበጣ Gebeta - Ethiopian Mancala Game
 
 A beautiful, interactive implementation of the traditional Ethiopian Mancala game built with React, TypeScript, and Tailwind CSS.
 
 ## 🎮 About the Game
 
-Gebeta (ገቦታ) is a traditional Ethiopian board game similar to Mancala. Players take turns sowing seeds counterclockwise, capturing opponent's seeds by landing in empty holes on their side.
+Gebeta (ገበጣ) is a traditional Ethiopian board game similar to Mancala. Players take turns sowing seeds counterclockwise, capturing opponent's seeds by landing in empty holes on their side.
 
 ## ✨ Features
 
