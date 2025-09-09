@@ -55,7 +55,7 @@ export const GameControls = ({ gameState, onReset }: GameControlsProps) => {
           <strong>💡 Traditional Wisdom:</strong>
         </p>
         <div className="space-y-1 text-xs">
-          <p>• "በገበጣ ውስጥ ትዕጣን አይለቅም" - "Patience is key in Gebeta"</p>
+          <p>• <span className="text-base leading-relaxed" style={{ fontFamily: 'Nyala, serif' }}>"በገበጣ ውስጥ ትዕጣን አይለቅም"</span> - "Patience is key in Gebeta"</p>
           <p>• Each move requires careful consideration</p>
           <p>• Strategy over haste brings victory</p>
           <p>• Like coffee, wisdom comes from experience</p>
