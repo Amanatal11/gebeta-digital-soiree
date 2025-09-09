@@ -52,13 +52,13 @@ export const GameControls = ({ gameState, onReset }: GameControlsProps) => {
 
       <div className="text-center text-sm text-muted-foreground max-w-md p-4 rounded-lg bg-card/30">
         <p className="mb-2">
-          <strong>Need help?</strong> The game is simple:
+          <strong>💡 Traditional Wisdom:</strong>
         </p>
         <div className="space-y-1 text-xs">
-          <p>• Click any hole with seeds on your side</p>
-          <p>• Seeds distribute counterclockwise automatically</p>
-          <p>• Capture when your last seed lands in an empty hole</p>
-          <p>• Collect the most seeds to win!</p>
+          <p>• <span className="text-base leading-relaxed" style={{ fontFamily: 'Nyala, serif' }}>"በገበጣ ውስጥ ትዕጣን አይለቅም"</span> - "Patience is key in Gebeta"</p>
+          <p>• Each move requires careful consideration</p>
+          <p>• Strategy over haste brings victory</p>
+          <p>• Like coffee, wisdom comes from experience</p>
         </div>
       </div>
     </div>
