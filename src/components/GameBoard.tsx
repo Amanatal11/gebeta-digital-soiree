@@ -4,6 +4,8 @@ import { Hole } from "./Hole";
 import { PlayerInfo } from "./PlayerInfo";
 import { GameControls } from "./GameControls";
 import { GameSetup, GameVariant } from "./GameSetup";
+import { validateMove, validateGameState, validateGameReset, ValidationResult } from "@/lib/validation";
+import { useToast } from "@/hooks/use-toast";
 
 export interface GameState {
   board: number[][];
@@ -42,6 +44,7 @@ const getInitialBoard = (variant: GameVariant): number[][] => {
 };
 
 export const GameBoard = () => {
+  const { toast } = useToast();
   const [gameState, setGameState] = useState<GameState>({
     board: [],
     stores: [0, 0],
@@ -54,6 +57,27 @@ export const GameBoard = () => {
   });
 
   const startGame = (variant: GameVariant) => {
+    // Validate game setup
+    const validation = validateGameState({
+      board: [],
+      stores: [0, 0],
+      currentPlayer: 0,
+      gameOver: false,
+      winner: null,
+      variant,
+      phase: 'setup',
+      relaySowing: false
+    });
+
+    if (!validation.isValid) {
+      toast({
+        title: "Setup Error",
+        description: validation.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     const initialBoard = getInitialBoard(variant);
     const initialState: GameState = {
       board: initialBoard,
@@ -276,6 +300,19 @@ export const GameBoard = () => {
   };
 
   const makeMove = (row: number, hole: number) => {
+    // Validate the move before executing
+    const validation = validateMove(gameState, row, hole);
+
+    if (!validation.isValid) {
+      // Show validation error as toast
+      toast({
+        title: validation.type === 'error' ? "Invalid Move" : "Cannot Move",
+        description: validation.message,
+        variant: validation.type === 'error' ? "destructive" : "default",
+      });
+      return;
+    }
+
     if (gameState.phase === 'race') {
       makeRaceMove(gameState.currentPlayer, hole);
     } else {
@@ -284,6 +321,16 @@ export const GameBoard = () => {
   };
 
   const resetGame = () => {
+    const validation = validateGameReset(gameState);
+
+    if (validation.message) {
+      toast({
+        title: "Resetting Game",
+        description: validation.message,
+        variant: validation.type === 'error' ? "destructive" : "default",
+      });
+    }
+
     setGameState({
       board: [],
       stores: [0, 0],

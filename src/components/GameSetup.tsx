@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Target, Crown } from "lucide-react";
+import { validateGameSetup } from "@/lib/validation";
+import { useToast } from "@/hooks/use-toast";
 
 export type GameVariant = '12-hole' | '18-hole';
 
@@ -10,6 +12,29 @@ interface GameSetupProps {
 }
 
 export const GameSetup = ({ onStartGame }: GameSetupProps) => {
+    const { toast } = useToast();
+
+    const handleStartGame = (variant: GameVariant) => {
+        const validation = validateGameSetup(variant);
+
+        if (!validation.isValid) {
+            toast({
+                title: "Invalid Selection",
+                description: validation.message,
+                variant: "destructive",
+            });
+            return;
+        }
+
+        toast({
+            title: "Starting Game",
+            description: `Starting ${variant === '12-hole' ? 'Classic Gebeta' : 'Gabata (3-Row)'} game...`,
+            variant: "default",
+        });
+
+        onStartGame(variant);
+    };
+
     return (
         <div className="min-h-screen bg-gradient-warm flex items-center justify-center p-4">
             <div className="max-w-4xl w-full">
@@ -53,7 +78,7 @@ export const GameSetup = ({ onStartGame }: GameSetupProps) => {
                                     <strong>Style:</strong> Rectangular layout
                                 </div>
                                 <Button
-                                    onClick={() => onStartGame('12-hole')}
+                                    onClick={() => handleStartGame('12-hole')}
                                     className="w-full mt-4"
                                     size="lg"
                                 >
@@ -90,7 +115,7 @@ export const GameSetup = ({ onStartGame }: GameSetupProps) => {
                                     <strong>Special:</strong> Race phase + relay mechanics
                                 </div>
                                 <Button
-                                    onClick={() => onStartGame('18-hole')}
+                                    onClick={() => handleStartGame('18-hole')}
                                     className="w-full mt-4"
                                     size="lg"
                                     variant="default"
