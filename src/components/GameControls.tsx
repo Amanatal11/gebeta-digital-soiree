@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { GameState } from "./GameBoard";
-import { RotateCcw, Trophy, Users } from "lucide-react";
+import { RotateCcw, Trophy, Users, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface GameControlsProps {
   gameState: GameState;
   onReset: () => void;
+  onHint?: () => void;
+  isHintLoading?: boolean;
 }
 
-export const GameControls = ({ gameState, onReset }: GameControlsProps) => {
+export const GameControls = ({ gameState, onReset, onHint, isHintLoading }: GameControlsProps) => {
   return (
     <div className="flex flex-col items-center gap-4">
       {gameState.gameOver && (
@@ -30,14 +32,29 @@ export const GameControls = ({ gameState, onReset }: GameControlsProps) => {
       )}
 
       <div className="flex flex-col gap-3 items-center">
-        <Button
-          onClick={onReset}
-          size="lg"
-          className="gap-2 bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-3 text-lg font-semibold"
-        >
-          <RotateCcw className="w-5 h-5" />
-          New Game
-        </Button>
+        <div className="flex gap-3 items-center">
+          <Button
+            onClick={onReset}
+            size="lg"
+            className="gap-2 bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-3 text-lg font-semibold"
+          >
+            <RotateCcw className="w-5 h-5" />
+            New Game
+          </Button>
+
+          {onHint && !gameState.gameOver && gameState.phase === 'playing' && (
+            <Button
+              onClick={onHint}
+              size="lg"
+              variant="outline"
+              className="gap-2 border-accent text-accent hover:bg-accent/10 px-6 py-3 text-lg font-semibold"
+              disabled={isHintLoading}
+            >
+              <Lightbulb className={cn("w-5 h-5", isHintLoading && "animate-pulse")} />
+              {isHintLoading ? "Thinking..." : "Hint"}
+            </Button>
+          )}
+        </div>
 
         <Button
           variant="outline"

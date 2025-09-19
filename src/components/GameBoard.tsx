@@ -6,6 +6,7 @@ import { GameControls } from "./GameControls";
 import { GameSetup, GameVariant } from "./GameSetup";
 import { validateMove, validateGameState, validateGameReset, ValidationResult } from "@/lib/validation";
 import { useToast } from "@/hooks/use-toast";
+import { getHintSuggestion, HintResponse } from "@/lib/utils";
 
 export interface GameState {
   board: number[][];
@@ -54,6 +55,17 @@ export const GameBoard = () => {
     variant: '12-hole',
     phase: 'setup',
     relaySowing: false
+  });
+  const [hintState, setHintState] = useState<{
+    suggestedHole: number | null;
+    suggestedRow: number | null;
+    isLoading: boolean;
+    reasoning: string | null;
+  }>({
+    suggestedHole: null,
+    suggestedRow: null,
+    isLoading: false,
+    reasoning: null
   });
 
   const startGame = (variant: GameVariant) => {
