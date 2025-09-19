@@ -4,7 +4,7 @@ import { Hole } from "./Hole";
 import { PlayerInfo } from "./PlayerInfo";
 import { GameControls } from "./GameControls";
 import { GameSetup, GameVariant } from "./GameSetup";
-import { validateMove, validateGameState, validateGameReset, ValidationResult } from "@/lib/validation";
+import { validateMove, validateGameState, validateGameReset, validateGameSetup, ValidationResult } from "@/lib/validation";
 import { useToast } from "@/hooks/use-toast";
 
 export interface GameState {
