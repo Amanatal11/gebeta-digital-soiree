@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -16,18 +17,21 @@ const Index = () => {
           <h1 className="text-4xl font-extrabold tracking-tight text-[var(--text-color)]">Gebeta</h1>
           <p className="mt-3 text-lg text-[var(--subtle-text)] max-w-xs mx-auto">The ancient game of strategy and skill, reimagined.</p>
           <div className="w-full max-w-sm mt-12 space-y-4">
-            <button
+            <Button
               onClick={() => navigate("/game")}
-              className="w-full h-14 px-5 bg-[var(--primary-color)] text-white text-lg font-bold rounded-xl shadow-md hover:bg-opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] focus:ring-offset-[var(--background-color)]"
+              className="w-full h-14 text-lg font-bold"
+              size="lg"
             >
               Start New Game
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => navigate("/game?continue=1")}
-              className="w-full h-14 px-5 bg-[var(--card-bg)] text-[var(--text-color)] text-lg font-bold rounded-xl shadow-md hover:bg-[var(--accent-light)] transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] focus:ring-offset-[var(--background-color)]"
+              className="w-full h-14 text-lg font-bold"
+              size="lg"
+              variant="outline"
             >
               Continue Game
-            </button>
+            </Button>
           </div>
           <div className="flex-grow"></div>
         </main>
