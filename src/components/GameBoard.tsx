@@ -312,6 +312,9 @@ export const GameBoard = () => {
   };
 
   const makeMove = (row: number, hole: number) => {
+    // Clear any existing hints when making a move
+    clearHint();
+
     // Validate the move before executing
     const validation = validateMove(gameState, row, hole);
 
@@ -352,6 +355,70 @@ export const GameBoard = () => {
       variant: '12-hole',
       phase: 'setup',
       relaySowing: false
+    });
+
+    // Clear hint state when resetting
+    setHintState({
+      suggestedHole: null,
+      suggestedRow: null,
+      isLoading: false,
+      reasoning: null
+    });
+  };
+
+  const getHint = async () => {
+    if (gameState.gameOver || gameState.phase !== 'playing') {
+      return;
+    }
+
+    setHintState(prev => ({ ...prev, isLoading: true }));
+
+    try {
+      const hintResponse = await getHintSuggestion({
+        board: gameState.board,
+        currentPlayer: gameState.currentPlayer,
+        variant: gameState.variant,
+        stores: gameState.stores
+      });
+
+      // Determine which row the suggested hole is on
+      let suggestedRow: number;
+      if (gameState.variant === '12-hole') {
+        suggestedRow = gameState.currentPlayer;
+      } else {
+        suggestedRow = gameState.currentPlayer === 0 ? 0 : 2;
+      }
+
+      setHintState({
+        suggestedHole: hintResponse.suggestedHole,
+        suggestedRow,
+        isLoading: false,
+        reasoning: hintResponse.reasoning
+      });
+
+      // Show hint reasoning in toast
+      toast({
+        title: "💡 Hint Suggestion",
+        description: hintResponse.reasoning,
+        variant: "default",
+      });
+
+    } catch (error) {
+      setHintState(prev => ({ ...prev, isLoading: false }));
+      toast({
+        title: "Hint Error",
+        description: error instanceof Error ? error.message : "Failed to get hint suggestion",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const clearHint = () => {
+    setHintState({
+      suggestedHole: null,
+      suggestedRow: null,
+      isLoading: false,
+      reasoning: null
     });
   };
 
@@ -448,6 +515,7 @@ export const GameBoard = () => {
                   onClick={() => makeMove(1, 5 - index)}
                   disabled={gameState.currentPlayer !== 1 || gameState.gameOver || gameState.phase !== 'playing'}
                   highlight={gameState.currentPlayer === 1 && !gameState.gameOver && gameState.phase === 'playing'}
+                  hintHighlight={hintState.suggestedRow === 1 && hintState.suggestedHole === (5 - index)}
                 />
               ))}
             </div>
@@ -461,6 +529,7 @@ export const GameBoard = () => {
                   onClick={() => makeMove(0, index)}
                   disabled={gameState.currentPlayer !== 0 || gameState.gameOver || gameState.phase !== 'playing'}
                   highlight={gameState.currentPlayer === 0 && !gameState.gameOver && gameState.phase === 'playing'}
+                  hintHighlight={hintState.suggestedRow === 0 && hintState.suggestedHole === index}
                 />
               ))}
             </div>
@@ -482,6 +551,7 @@ export const GameBoard = () => {
                     gameState.phase === 'race' ? gameState.racePhase?.player1Position === 0 :
                       gameState.currentPlayer === 1 && !gameState.gameOver && gameState.phase === 'playing'
                   }
+                  hintHighlight={hintState.suggestedRow === 2 && hintState.suggestedHole === (5 - index)}
                 />
               ))}
             </div>
@@ -495,6 +565,7 @@ export const GameBoard = () => {
                   onClick={() => makeMove(1, 5 - index)}
                   disabled={true} // Middle row not playable directly
                   highlight={false}
+                  hintHighlight={false}
                 />
               ))}
             </div>
@@ -514,6 +585,7 @@ export const GameBoard = () => {
                     gameState.phase === 'race' ? gameState.racePhase?.player0Position === 0 :
                       gameState.currentPlayer === 0 && !gameState.gameOver && gameState.phase === 'playing'
                   }
+                  hintHighlight={hintState.suggestedRow === 0 && hintState.suggestedHole === index}
                 />
               ))}
             </div>
@@ -524,6 +596,8 @@ export const GameBoard = () => {
       <GameControls
         gameState={gameState}
         onReset={resetGame}
+        onHint={getHint}
+        isHintLoading={hintState.isLoading}
       />
     </div>
   );

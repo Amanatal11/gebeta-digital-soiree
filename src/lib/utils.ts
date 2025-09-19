@@ -25,7 +25,7 @@ export interface HintError {
 
 export async function getHintSuggestion(gameState: HintRequest): Promise<HintResponse> {
   const backendUrl = 'http://localhost:8000/suggest-move';
-  
+
   try {
     const response = await fetch(backendUrl, {
       method: 'POST',
@@ -40,7 +40,7 @@ export async function getHintSuggestion(gameState: HintRequest): Promise<HintRes
     }
 
     const data = await response.json();
-    
+
     if ('error' in data) {
       throw new Error(data.error);
     }

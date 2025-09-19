@@ -5,9 +5,10 @@ interface HoleProps {
   onClick: () => void;
   disabled: boolean;
   highlight: boolean;
+  hintHighlight?: boolean;
 }
 
-export const Hole = ({ seeds, onClick, disabled, highlight }: HoleProps) => {
+export const Hole = ({ seeds, onClick, disabled, highlight, hintHighlight }: HoleProps) => {
   return (
     <button
       onClick={onClick}
@@ -20,6 +21,7 @@ export const Hole = ({ seeds, onClick, disabled, highlight }: HoleProps) => {
         "shadow-inner",
         !disabled && "hover:scale-105 hover:shadow-lg cursor-pointer",
         highlight && !disabled && "ring-2 ring-capture-highlight ring-offset-2",
+        hintHighlight && !disabled && "ring-4 ring-yellow-400 ring-offset-2 animate-pulse",
         disabled && "opacity-60 cursor-not-allowed"
       )}
     >
