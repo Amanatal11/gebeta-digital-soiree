@@ -4,9 +4,8 @@ import { Hole } from "./Hole";
 import { PlayerInfo } from "./PlayerInfo";
 import { GameControls } from "./GameControls";
 import { GameSetup, GameVariant } from "./GameSetup";
-import { validateMove, validateGameState, validateGameReset, ValidationResult } from "@/lib/validation";
+import { validateMove, validateGameState, validateGameReset, validateGameSetup, ValidationResult } from "@/lib/validation";
 import { useToast } from "@/hooks/use-toast";
-import { getHintSuggestion, HintResponse } from "@/lib/utils";
 
 export interface GameState {
   board: number[][];
@@ -69,17 +68,8 @@ export const GameBoard = () => {
   });
 
   const startGame = (variant: GameVariant) => {
-    // Validate game setup
-    const validation = validateGameState({
-      board: [],
-      stores: [0, 0],
-      currentPlayer: 0,
-      gameOver: false,
-      winner: null,
-      variant,
-      phase: 'setup',
-      relaySowing: false
-    });
+    // Validate variant selection
+    const validation = validateGameSetup(variant);
 
     if (!validation.isValid) {
       toast({
@@ -374,12 +364,28 @@ export const GameBoard = () => {
     setHintState(prev => ({ ...prev, isLoading: true }));
 
     try {
-      const hintResponse = await getHintSuggestion({
-        board: gameState.board,
-        currentPlayer: gameState.currentPlayer,
-        variant: gameState.variant,
-        stores: gameState.stores
+      const response = await fetch("http://localhost:8000/suggest-move", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          board: gameState.board,
+          currentPlayer: gameState.currentPlayer,
+          variant: gameState.variant,
+          stores: gameState.stores
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error(`Backend responded with status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
 
       // Determine which row the suggested hole is on
       let suggestedRow: number;
@@ -390,21 +396,22 @@ export const GameBoard = () => {
       }
 
       setHintState({
-        suggestedHole: hintResponse.suggestedHole,
+        suggestedHole: data.suggestedHole,
         suggestedRow,
         isLoading: false,
-        reasoning: hintResponse.reasoning
+        reasoning: data.reasoning || `Suggested hole ${data.suggestedHole}`
       });
 
       // Show hint reasoning in toast
       toast({
         title: "💡 Hint Suggestion",
-        description: hintResponse.reasoning,
+        description: data.reasoning || `Suggested hole ${data.suggestedHole}`,
         variant: "default",
       });
 
     } catch (error) {
       setHintState(prev => ({ ...prev, isLoading: false }));
+      console.error("Error fetching hint:", error);
       toast({
         title: "Hint Error",
         description: error instanceof Error ? error.message : "Failed to get hint suggestion",
