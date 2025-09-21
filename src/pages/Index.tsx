@@ -49,10 +49,10 @@ const Index = () => {
               <span className="material-symbols-outlined">leaderboard</span>
               <span className="text-xs font-medium">Leaderboard</span>
             </a>
-            <a className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg text-[var(--subtle-text)] hover:text-[var(--primary-color)] transition-colors" href="#">
+            <Link className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg text-[var(--subtle-text)] hover:text-[var(--primary-color)] transition-colors" to="/settings">
               <span className="material-symbols-outlined">settings</span>
               <span className="text-xs font-medium">Settings</span>
-            </a>
+            </Link>
           </nav>
           <div className="h-safe-area-bottom bg-[var(--card-bg)]/80"></div>
         </footer>
